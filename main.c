@@ -1,7 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
+#define MAX 100000
 
 void print();
+void clear_screen(void);
 void view(int n,int A[]);
 void insert(int n, int A[]);
 void search(int n,int A[]);
@@ -9,45 +11,36 @@ void deletee(int n, int A[]);
 void sort(int n,int A[]);
 void sort1(int n,int A[]);
 void FindingLocation(int n, int A[]);
+void operation();
 
 int main()
 {
     int n,i,x;
-    printf("Enter the size of array :");
+    printf("Enter the size of n :");
     scanf("%d", &n);
-    int A[n];
-    //int *p = (int*)malloc( 2 * sizeof(int));
-    printf("Enter array elements : ");
+    int *A = (int*)malloc(MAX * sizeof(int));
+    //dynamically memory allocation
+    if(A == 0)
+        printf("unable to allocate memory");
+
+
+    printf("Enter array elements :");
     for(i = 0; i < n; i++)
     {
         scanf("%d", &A[i]);
     }
-
-    print();
-    printf("\n\nchoose any number from above:\n");
-    scanf("%d", &x);
-    if( x == 0)
+    while(1)
     {
-        exit(0);
+        print();
+        printf("\n\nplease enter a number from above : ");
+        scanf("%d",&x);
+        operation(A,x,n);
+        clear_screen();
+
     }
-    else if (x == 1)
-        view(n,A);
-    else if(x == 2)
-        insert(n,A);
-    else if(x == 3)
-        search(n,A);
-    else if (x == 4)
-        deletee(n,A);
-    else if(x == 5)
-        sort(n,A);
-    else if(x == 6)
-        sort1(n,A);
-    else if(x == 7)
-        FindingLocation(n,A);
 
     return 0;
 }
-
 
 void print()
 {
@@ -141,17 +134,17 @@ void sort(int n,int A[])
 {
     int i,j,t;
     for (i = 0 ; i < n - 1; i++)
-  {
-    for (j = 0 ; j < n - i - 1; j++)
     {
-      if (A[j] > A[j+1])
-      {
-        t= A[j];
-        A[j]= A[j+1];
-        A[j+1] = t;
-      }
+        for (j = 0 ; j < n - i - 1; j++)
+        {
+            if (A[j] > A[j+1])
+            {
+                t= A[j];
+                A[j]= A[j+1];
+                A[j+1] = t;
+            }
+        }
     }
-  }
     printf("The numbers arranged in ascending order :\n");
     for(i = 0; i < n; i++)
         printf("%d  ",A[i]);
@@ -161,17 +154,17 @@ void sort1(int n,int A[])
 {
     int i,j,t;
     for (i = 0 ; i < n - 1; i++)
-  {
-    for (j = 0 ; j < n - i - 1; j++)
     {
-      if (A[j] < A[j+1])
-      {
-        t= A[j];
-        A[j]= A[j+1];
-        A[j+1] = t;
-      }
+        for (j = 0 ; j < n - i - 1; j++)
+        {
+            if (A[j] < A[j+1])
+            {
+                t= A[j];
+                A[j]= A[j+1];
+                A[j+1] = t;
+            }
+        }
     }
-  }
     printf("The numbers arranged in descending order :\n");
     for(i = 0; i < n; i++)
         printf("%d  ",A[i]);
@@ -184,12 +177,53 @@ void FindingLocation(int n, int A[])
     printf("base address = %u\n", base);
     printf("Enter the index number to find memory location :");
     scanf("%d", &m);
-    s = sizeof(int);
-    printf("byte size = %d\n", s);
-    l= base + s*(m - 1);
-    printf("The memory location of index %d is = %u", m,l);
+    if(m < 0 || m > n)
+        printf("ERROR ! No such index is present. ");
+    else
+    {
+        s = sizeof(int);
+        printf("byte size = %d\n", s);
+        l= base + s*(m - 1);
+        printf("The memory location of index %d is = %u", m,l);
+    }
 
 }
+
+
+void clear_screen(void)
+{
+    printf("\n\npress any key to clear the screen  : ");
+    getch();
+    system("cls");
+}
+void operation(int A[],int x,int n)
+{
+
+
+    if(x < 0 || x > 7)
+        printf("invalid keyword");
+    else
+    {
+        if(x == 0)
+            exit(0);
+        else if (x == 1)
+            view(n,A);
+        else if(x == 2)
+            insert(n,A);
+        else if(x == 3  )
+            search(n,A);
+        else if (x == 4)
+            deletee(n,A);
+        else if(x == 5)
+            sort(n,A);
+        else if(x == 6)
+            sort1(n,A);
+        else if(x == 7)
+            FindingLocation(n,A);
+
+    }
+}
+
 
 
 
